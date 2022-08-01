@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/@primer/css@^20.2.4/dist/primer.css" rel="stylesheet" />
+  <title>Prerequisite entering</title>
+</head>
+
+<body>
+  <div data-color-mode="light" data-light-theme="light" class="p-3">
+    <h1>Prerequisite entering</h1>
+    <button class="btn" id="downloadProgressButton">Download Progress</button>
+    Restore progress:
+    <input type="file" id="rawFile" />
+    Course index:
+    <input type="text" id="courseIndex" value="0" />
+    <div class="Box p-3" id="prereqText"></div>
+    Prerequisite input: (use '!' for incompatibilities and '~' for corequisite)
+    <div class="form-group error" id="prereq-input-wrapper">
+      <div class="form-group-body">
+        <input class="form-control input-block" aria-describedby="prereq-input-validation" type="text"
+          id="prereqInput" />
+      </div>
+      <p class="note error" id="prereq-input-validation">Invalid entry</p>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" id="saveButton" onclick="onSaveNextClicked()">Save and Next</button>
+      <button class="btn" id="skipButton">Skip</button>
+    </div>
+  </div>
+  <script src="./main.js"></script>
+</body>
+
+</html>

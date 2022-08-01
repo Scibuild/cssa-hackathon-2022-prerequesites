@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://unpkg.com/@primer/css@^20.2.4/dist/primer.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check Your Prerequisites</title>
+</head>
+
+<body>
+  <div class="p-3">
+    <h1>Check Your Prerequisites</h1>
+    <p>
+      Completed Courses:
+    <div>
+      <textarea class="form-control" id="completedInput"></textarea>
+    </div>
+    </p>
+    <p>
+      Concurrent Courses:
+    <div>
+      <textarea class="form-control" id="concurrentInput"></textarea>
+    </div>
+    </p>
+    <p>
+      Check Course:
+
+      <input class="form-control" type="text" id="toCheckInput" />
+    </p>
+    <button class="btn" onclick="checkCourse()">Check</button>
+    <div class="my-4" style="gap: 20px; display: flex; flex-direction: column" id="errContainer">
+
+    </div>
+
+    <script src="main.js"></script>
+
+</body>
+
+</html>
