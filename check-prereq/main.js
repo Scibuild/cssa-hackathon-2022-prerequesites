@@ -48,7 +48,6 @@ function checkCourse() {
   let simpleExpr = simplifyPass(expression);
   if(errors.length !== 0) return;
 
-  // addError(pprint(simpleExpr))
 
   let success = checkMeets(simpleExpr, completedCourses, concurrentCourses);
   if(success.errors === undefined) {
@@ -128,6 +127,7 @@ function checkMeets(expr, completed, concurrent) {
       break;
     case "COURSE":
     case "COURSE_MARKED":{
+      console.log(completed)
       let courseIndex = findCourse(completed, expr.course);
       if(courseIndex === -1) 
         return {errors: ["Have not taken " + pprint(expr) + "."]}
@@ -135,17 +135,22 @@ function checkMeets(expr, completed, concurrent) {
       return {concurrent, completed: completed.filter((_, i) => i !== courseIndex)};
     }
 
-    case "MULT":
-      let meetsAll = true;
+    case "MULT": {
+      let completedLocal = completed;
+      let concurrentLocal = concurrent;
+
       for(let i = 0; i < expr.num; i++) {
-        meetsAll = meetsAll && checkMeets(expr.lhs);
+        let satisfies = checkMeets(expr.lhs, completedLocal, concurrentLocal);
+        if(satisfies.errors !== undefined) return satisfies;
+        completedLocal = satisfies.completed;
+        concurrentLocal = satisfies.concurrent;
       }
-      return meetsAll;
+      return {concurrent: concurrentLocal, completed: completedLocal};
+    }
   }
 }
 
 function findCourse(courseList, course) {
-  console.log("Searching for " + course.code + " in " + courseList);
   if(course.type === "ANY") {
     if(courseList.length > 0) return 0;
     else return -1;
@@ -166,7 +171,7 @@ function findCourse(courseList, course) {
 function pprint(expr) {
   switch(expr.tag) {
     case "SKIPPED":
-      return "skipped: 'rawText'"
+      return "skipped: '" + expr.rawText + "'."
     case "NONE":
       return "none";
     case "OR":
@@ -178,7 +183,7 @@ function pprint(expr) {
     case "IN":
       return "!" + pprint(expr.rhs)
     case "COURSE":
-      if(expr.course.tag === "ANY") return "_"
+      if(expr.course.type === "ANY") return "_"
       return expr.course.code;
     case "COURSE_MARKED":
       return expr.course.code + " > " + expr.mark
